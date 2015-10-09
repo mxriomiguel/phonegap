@@ -31,6 +31,9 @@
         <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
         <script>
+        function nuevo_servicio(){
+            alert("nuevo servicio");
+        }
         $(document).bind('mobileinit',function(){
             $.mobile.changePage.defaults.changeHash = false;
             $.mobile.hashListeningEnabled = false;
@@ -38,51 +41,38 @@
         });
         </script> 
         <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script> 
-    <script>
-
-        $(document).ready(function() { 
-        $('#botonLogin').click(function() {
-             
-            var datosUsuario = $("#nombredeusuario").val();
-            var datosPassword = $("#clave").val();
-            var archivoValidacion = "http://tuconstru.com/sati/validacion_de_datos.php?jsoncallback=?";   
-
-            $.getJSON( archivoValidacion, { usuario:datosUsuario ,password:datosPassword})
-            .done(function(respuestaServer) {
-                
-                alert(respuestaServer.mensaje + "\nGenerado en: " + respuestaServer.hora)
-                alert(respuestaServer.cadena);
-                if(respuestaServer.validacion == "ok"){
-                  
-                    /// si la validacion es correcta, muestra la pantalla "home"
-                    alert('Bienvenido');
-                    window.location="form_nuevo_servicio.html";
-                  
-                }else{
-                  
-                  /// ejecutar una conducta cuando la validacion falla
-                    alert('Error al verificar usuario. Verifique sus datos');
-                }
-          
-            });
-            return false;
-
-        });
-        });
-            
-    </script>
+        <script type="text/javascript">
+        var myDate = new Date();
+        var displayDate = (myDate.getMonth()+1) + '/' + (myDate.getDate()) + '/' + myDate.getFullYear();
+        alert(displayDate);
+        </script>
     </head>
     <body style="background-image: -webkit-gradient(linear,left top,left bottom,from(#737CA9),to(#eee));">
-        <div style="text-align: center; padding-top:200px;">
+        <div style="text-align: center; padding-top:100px;">
             <img src="img/logo_sati.png" />
         </div>
-        <div class="app">
+        <div class="app" style="padding: 10px 0px 75px 0px;">
             <h1>VALE DIGITAL</h1>
-            <h2>Iniciar Sesión</h2>
+            <h2>Nuevo Servicio</h2>
             <div>
+                <button onclick="nuevo_servicio();">Nuevo Servicio</button>
+            </div>
+            <div id="formulario_nuevo_servicio">
                 <form data-ajax="false" id="formulario" action="index.html" method="post">
+                    <input type="text" placeholder="Fecha" id="fecha" name="fecha">
+                    <input type="text" placeholder="Nombre del Conductor" id="nombredeconductor" name="nombredeconductor">
+                    <input type="text" placeholder="Placa" id="placa" name="placa">
+                    <input type="text" placeholder="Nombre del Funcionario" id="nombredefuncionario" name="nombredefuncionario">
+                    <input type="text" placeholder="Nombre del Pasajero" id="nombredepasajero" name="nombredepasajero">
+                    <input type="text" placeholder="Orden de Servicio" id="ordendeservicio" name="ordendeservicio">
+                    <input type="text" placeholder="Empresa" id="empresa" name="empresa">
+                    <input type="text" placeholder="Origen" id="origen" name="origen">
+                    <input type="text" placeholder="Destino" id="destino" name="destino">
+                    <input type="text" placeholder="Hora de Inicio" id="horadeinicio" name="horadeinicio" value="<?php echo date(); ?>">
+                    <input type="text" placeholder="Hora Final" id="horafinal" name="horafinal">
+                    <input type="text" placeholder="Descripción del Servicio" id="descdelservicio" name="descdelservicio">
                     <input type="text" placeholder="Usuario" id="nombredeusuario" name="nombredeusuario">
-                    <input style="display:block;" type="password" placeholder="Clave" id="clave" name="clave">
+                    <input style="display:block;" type="text" placeholder="Clave" id="clave" name="clave">
                     <input type="submit" value="Login" id="botonLogin">
                 </form>
             </div>
