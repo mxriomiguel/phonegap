@@ -41,6 +41,7 @@
     <script>
 
         $(document).ready(function() { 
+        window.localStorage.clear();
         $('#botonLogin').click(function() {
              
             var datosUsuario = $("#nombredeusuario").val();
@@ -50,12 +51,15 @@
             $.getJSON( archivoValidacion, { usuario:datosUsuario ,password:datosPassword})
             .done(function(respuestaServer) {
                 
-                alert(respuestaServer.mensaje + "\nGenerado en: " + respuestaServer.hora)
-                alert(respuestaServer.cadena);
+                //alert("\nGenerado en: " + respuestaServer.hora)
                 if(respuestaServer.validacion == "ok"){
-                  
+                    var value = window.localStorage.getItem("nombre_conductor");
+                    if(!value){
+                        window.localStorage.setItem("nombre_conductor", respuestaServer.nombre);
+                        window.localStorage.setItem("placa_conductor", respuestaServer.placa);
+                    }
                     /// si la validacion es correcta, muestra la pantalla "home"
-                    alert('Bienvenido');
+                    alert('Bienvenido ' + respuestaServer.nombre);
                     window.location="form_nuevo_servicio.html";
                   
                 }else{
