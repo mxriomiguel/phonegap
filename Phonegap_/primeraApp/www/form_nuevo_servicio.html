@@ -94,25 +94,14 @@
                     <input type="text" placeholder="Hora de Inicio" id="horadeinicio" name="horadeinicio">
                     <input type="text" placeholder="Hora Final" id="horafinal" name="horafinal">
                     <input type="text" placeholder="Descripción del Servicio" id="descdelservicio" name="descdelservicio">
-                    <input type="submit" value="Finalizar Servicio" id="botonFinalizarServicio">
+                    <input type="text" placeholder="Usuario" id="nombredeusuario" name="nombredeusuario">
+                    <input style="display:block;" type="text" placeholder="Clave" id="clave" name="clave">
+                    <input type="submit" value="Login" id="botonLogin">
                 </form>
-            </div>
-        </div>
-
-        <div id="signature-pad" class="m-signature-pad">
-            <div class="m-signature-pad--body">
-              <canvas></canvas>
-            </div>
-            <div class="m-signature-pad--footer">
-              <div class="description">Firma</div>
-              <button class="button clear" data-action="clear">Clear</button>
-              <button class="button save" data-action="save">Save</button>
             </div>
         </div>
         <!-- <script type="text/javascript" src="cordova.js"></script> -->
         <script type="text/javascript" src="js/index.js"></script>
-        <script src="js/signature_pad.js"></script>
-        <script src="js/app.js"></script>
         <!-- <script type="text/javascript" src="js/app.js"></script> -->
         <script type="text/javascript">
             //app.initialize();
@@ -135,8 +124,6 @@
                   'Velocidad: '       + position.coords.speed             + '\n' +
                   'Timestamp: '       + new Date(position.timestamp)      + '\n';
                   $("#origen").val(geolocacion);
-                  var latlon = position.coords.latitude + "," + position.coords.longitude;
-                  var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&size=400x300&sensor=false";
             }
 
             // La función 'callback' onError recibe un objeto `PositionError`.
