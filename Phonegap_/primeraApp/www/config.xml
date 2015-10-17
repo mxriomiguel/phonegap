@@ -27,7 +27,7 @@
   <gap:plugin name="org.apache.cordova.splashscreen"/>
   <gap:plugin name="org.apache.cordova.vibration"/>
   <gap:plugin name="org.apache.cordova.geolocation"/>
-  <gap:plugin name="org.apache.cordova.inappbrowser" source="pgb" version="0.5.2" />
+  
 
   
   <icon src="icon.png"/>
