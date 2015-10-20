@@ -33,12 +33,14 @@
         <script type="text/javascript">
         var sesion_nombre = window.localStorage.getItem("nombre_conductor");
         var sesion_placa = window.localStorage.getItem("placa_conductor");
+        var id_conductor = window.localStorage.getItem("id_conductor");
         var myDate = new Date();
         var displayDate = (myDate.getFullYear()) + '-' + (myDate.getMonth()+1) + '-' + myDate.getDate();
         var displayDateHour = displayDate + ' ' + myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds(); 
         </script>
         <script>
         $(document).ready(function() { 
+
             $('.app h1').text('Bienvenido ' + sesion_nombre + '-' + sesion_placa);
             $('#botonFinalizarServicio').click(function() {
 
@@ -53,13 +55,32 @@
                 return false;
             }
 
+
+            var id_servicio = respuestaServer.id_servicio;
+            alert(id_servicio);
+            var fecha_form = $("#fecha").val();
+            alert(fecha_form);
+            var ods_form = $("#ordendeservicio").val();
+            alert(ods_form);
+            var hora_inicio_form = $("#horadeinicio").val();
+            alert(hora_inicio_form);
+            var origen_form = $("#origen").val();
+            alert(origen_form);
+            var nombre_autorizador_form = $("#nombredefuncionario").val();
+            alert(nombre_autorizador_form);
+            var nombre_pasajero_form = $("#nombredepasajero").val();
+            alert(nombre_pasajero_form);
+            var desc_servicio_form = $("#descdelservicio").val();
+            alert(desc_servicio_form);
+            var id_empresa_form = $("empresa").val();
+            alert(id_empresa_form);
+
             var archivoNuevoServicio = "http://tuconstru.com/sati/nuevo_servicio.php?jsoncallback=?";   
 
-            var id_conductor = window.localStorage.getItem("id_conductor");
-            alert(id_conductor);
+            
 
 
-            /*$.getJSON( archivoServicio, { id_servicio: id_servicio.value ,nombre: sesion_nombre})
+            /*$.getJSON( archivoServicio, { id_servicio: id_servicio.value ,id_conductor: id_conductor})
             .done(function(respuestaServer) {
                 
                 //alert("\nGenerado en: " + respuestaServer.hora)
@@ -89,23 +110,21 @@
             $("#placa").val(sesion_placa);
             var archivoServicio = "http://tuconstru.com/sati/id_servicio.php?jsoncallback=?";   
 
-            $.getJSON( archivoServicio, { placa: sesion_placa ,nombre: sesion_nombre})
+            $.getJSON( archivoServicio, { id_conductor: id_conductor ,nombre: sesion_nombre})
             .done(function(respuestaServer) {
 
-                var id_servicio = respuestaServer.id_servicio;
 
                 
-                //alert("\nGenerado en: " + respuestaServer.hora)
+                
                 if(respuestaServer.validacion == "ok"){
 
                     alert('Ha iniciado el servicio  #' + respuestaServer.id_servicio);
                     window.localStorage.setItem("id_servicio", respuestaServer.id_servicio);
                     $("#id_servicio").val(respuestaServer.id_servicio);
-                    
                   
                 }else{
                   
-                  /// ejecutar una conducta cuando la validacion falla
+                
                     alert('Error al intentar iniciar nuevo servicio');
                 }
           
@@ -191,7 +210,6 @@
                   $("#origen").val(geolocacion);
                   var latlon = position.coords.latitude + "," + position.coords.longitude;
                   var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&size=400x300&sensor=false";
-                  alert(img_url);
                   $("#img_origen").attr("src",img_url);
             }
 
