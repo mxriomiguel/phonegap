@@ -34,19 +34,82 @@
         var sesion_nombre = window.localStorage.getItem("nombre_conductor");
         var sesion_placa = window.localStorage.getItem("placa_conductor");
         var myDate = new Date();
-        var displayDate = (myDate.getMonth()+1) + '/' + (myDate.getDate()) + '/' + myDate.getFullYear();
+        var displayDate = (myDate.getFullYear()) + '-' + (myDate.getMonth()+1) + '-' + myDate.getDate();
         var displayDateHour = displayDate + ' ' + myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds(); 
         </script>
         <script>
         $(document).ready(function() { 
             $('.app h1').text('Bienvenido ' + sesion_nombre + '-' + sesion_placa);
+            $('#botonFinalizarServicio').click(function() {
+
+             
+            if($("#nombredepasajero").val() == ''){
+                alert('Nombre del Pasajero es un campo obligatorio');
+                return false;
+            }
+
+            if($("#empresa").val() == '0'){
+                alert('Seleccionar nombre de empresa');
+                return false;
+            }
+
+            var archivoNuevoServicio = "http://tuconstru.com/sati/nuevo_servicio.php?jsoncallback=?";   
+
+            var id_conductor = window.localStorage.getItem("id_conductor");
+            alert(id_conductor);
+
+
+            /*$.getJSON( archivoServicio, { id_servicio: id_servicio.value ,nombre: sesion_nombre})
+            .done(function(respuestaServer) {
+                
+                //alert("\nGenerado en: " + respuestaServer.hora)
+                if(respuestaServer.validacion == "ok"){
+
+                    alert('Ha iniciado el servicio  #' + respuestaServer.id_servicio);
+                    $("#id_servicio").val(respuestaServer.id_servicio);
+                    
+                  
+                }else{
+                  
+                  /// ejecutar una conducta cuando la validacion falla
+                    alert('Error al intentar iniciar nuevo servicio');
+                }
+          
+            });*/
+            
+
         });
+        });
+
         function nuevo_servicio(){
             $("#formulario_nuevo_servicio").css("display", "block");
             $("#horadeinicio").val(displayDateHour);
             $("#fecha").val(displayDate);
             $("#nombredeconductor").val(sesion_nombre);
             $("#placa").val(sesion_placa);
+            var archivoServicio = "http://tuconstru.com/sati/id_servicio.php?jsoncallback=?";   
+
+            $.getJSON( archivoServicio, { placa: sesion_placa ,nombre: sesion_nombre})
+            .done(function(respuestaServer) {
+
+                var id_servicio = respuestaServer.id_servicio;
+
+                
+                //alert("\nGenerado en: " + respuestaServer.hora)
+                if(respuestaServer.validacion == "ok"){
+
+                    alert('Ha iniciado el servicio  #' + respuestaServer.id_servicio);
+                    window.localStorage.setItem("id_servicio", respuestaServer.id_servicio);
+                    $("#id_servicio").val(respuestaServer.id_servicio);
+                    
+                  
+                }else{
+                  
+                  /// ejecutar una conducta cuando la validacion falla
+                    alert('Error al intentar iniciar nuevo servicio');
+                }
+          
+            });
         }
         $(document).bind('mobileinit',function(){
             $.mobile.changePage.defaults.changeHash = false;
@@ -72,10 +135,10 @@
                     <input type="text" placeholder="Nombre del Conductor" id="nombredeconductor" name="nombredeconductor" disabled="disabled">
                     <input type="text" placeholder="Placa" id="placa" name="placa" disabled="disabled">
                     <input type="text" placeholder="Nombre del Funcionario" id="nombredefuncionario" name="nombredefuncionario" maxlenght="40">
-                    <input type="text" placeholder="Nombre del Pasajero" id="nombredepasajero" name="nombredepasajero" maxlenght="40">
+                    <input type="text" placeholder="Nombre del Pasajero*" id="nombredepasajero" name="nombredepasajero" maxlenght="40">
                     <input type="text" placeholder="Orden de Servicio" id="ordendeservicio" name="ordendeservicio" maxlenght="50">
-                    <input type="text" placeholder="Empresa" id="empresa" name="empresa" maxlenght="60">
-                    <select>
+                    <select id="empresa" name="empresa">
+                      <option value="0">EMPRESA*</option>
                       <option value="1">VIAJES FALABELLA SAS</option>
                       <option value="2">YOKOMOTOR SA</option>
                       <option value="3">CIRCULO DE SUBOFICIALES DE LAS FUERZAS MILITARES</option>
@@ -89,13 +152,16 @@
                       <option value="11">SATI SAS</option>
                       <option value="12">PARTICULAR</option>
                     </select>
-                    <input type="text" placeholder="Origen" id="origen" name="origen">
-                    <input type="text" placeholder="Destino" id="destino" name="destino">
-                    <input type="text" placeholder="Hora de Inicio" id="horadeinicio" name="horadeinicio">
-                    <input type="text" placeholder="Hora Final" id="horafinal" name="horafinal">
-                    <input type="text" placeholder="Descripción del Servicio" id="descdelservicio" name="descdelservicio">
+                    <input type="text" placeholder="Origen" id="origen" name="origen" disabled="disabled" maxlenght="180">
+                    <div><img id="img_origen" src=""></div>
+                    <input type="text" placeholder="Hora de Inicio" id="horadeinicio" name="horadeinicio" disabled="disabled">
+                    <input type="text" placeholder="Destino" id="destino" name="destino" maxlenght="180">
+                    <input type="text" placeholder="Hora Final" id="horafinal" name="horafinal" disabled="disabled">
+                    <input type="hidden" id="id_servicio" name="id_servicio" disabled="disabled">
+                    <textarea placeholder="Descripción del Servicio" id="descdelservicio" name="descdelservicio"></textarea>
                     <input type="submit" value="Finalizar Servicio" id="botonFinalizarServicio">
                 </form>
+                <span style="color: white;">* Campos Obligatorios</span>
             </div>
         </div>
 
@@ -114,17 +180,19 @@
             // onSuccess Geolocation
             //
             function onSuccess(position) {
-                var geolocacion = 'Latitud: '           + position.coords.latitude              + '<br />' +
-                  'Longitud: '        + position.coords.longitude         + '\n' +
-                  'Altitud: '         + position.coords.altitude          + '\n' +
-                  'Precisión: '       + position.coords.accuracy          + '\n' +
-                  'Precisión altitud' + position.coords.altitudeAccuracy  + '\n' +
-                  'Dirección: '       + position.coords.heading           + '\n' +
-                  'Velocidad: '       + position.coords.speed             + '\n' +
-                  'Timestamp: '       + new Date(position.timestamp)      + '\n';
+                var geolocacion = 'Latitud: '           + position.coords.latitude              + ' ' +
+                  'Longitud: '        + position.coords.longitude         + ' ' +
+                  'Altitud: '         + position.coords.altitude          + ' ' +
+                  'Precisión: '       + position.coords.accuracy          + ' ' +
+                  'Precisión altitud: ' + position.coords.altitudeAccuracy  + ' ' +
+                  'Dirección: '       + position.coords.heading           + ' ' +
+                  'Velocidad: '       + position.coords.speed             + ' ' +
+                  'Timestamp: '       + new Date(position.timestamp)      + ' ';
                   $("#origen").val(geolocacion);
                   var latlon = position.coords.latitude + "," + position.coords.longitude;
                   var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&size=400x300&sensor=false";
+                  alert(img_url);
+                  $("#img_origen").attr("src",img_url);
             }
 
             // La función 'callback' onError recibe un objeto `PositionError`.

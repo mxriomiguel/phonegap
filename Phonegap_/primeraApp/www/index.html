@@ -40,10 +40,17 @@
         <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script> 
     <script>
 
+        var servicio_actual = window.localStorage.getItem("id_servicio");
+                    if(servicio_actual){
+                        alert("Servicio actual #" + servicio_actual);
+                        window.location="form_nuevo_servicio.html";
+                    } else{
+                        window.localStorage.clear();
+                    }
+
         $(document).ready(function() { 
-        window.localStorage.clear();
         $('#botonLogin').click(function() {
-            
+
              
             var datosUsuario = $("#nombredeusuario").val();
             var datosPassword = $("#clave").val();
@@ -58,6 +65,7 @@
                     if(!value){
                         window.localStorage.setItem("nombre_conductor", respuestaServer.nombre);
                         window.localStorage.setItem("placa_conductor", respuestaServer.placa);
+                        window.localStorage.setItem("id_conductor", respuestaServer.id_usuario);
                     }
                     /// si la validacion es correcta, muestra la pantalla "home"
                     alert('Bienvenido ' + respuestaServer.nombre);
