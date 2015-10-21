@@ -97,6 +97,13 @@
                 }
           
             });*/
+
+            if(nombre_autorizador_form == ""){
+                alert("Servicio registrado");
+                window.localStorage.removeItem(id_servicio);
+                window.location="form_nuevo_servicio.html";
+                return false;
+            }
             
 
         });
