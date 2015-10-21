@@ -55,7 +55,9 @@
                 return false;
             }
 
-
+            var myDate_ = new Date();
+            var displayDate_ = (myDate_.getFullYear()) + '-' + (myDate_.getMonth()+1) + '-' + myDate_.getDate();
+            var HoraFinal = displayDate_ + ' ' + myDate_.getHours() + ':' + myDate_.getMinutes() + ':' + myDate_.getSeconds();
             var id_servicio = respuestaServer.id_servicio;
             alert(id_servicio);
             var fecha_form = $("#fecha").val();
@@ -182,7 +184,7 @@
                     <div><img id="img_origen" src=""></div>
                     <input type="text" placeholder="Hora de Inicio" id="horadeinicio" name="horadeinicio" disabled="disabled">
                     <input type="text" placeholder="Destino" id="destino" name="destino" maxlenght="180">
-                    <input type="text" placeholder="Hora Final" id="horafinal" name="horafinal" disabled="disabled">
+                    <input type="hidden" placeholder="Hora Final" id="horafinal" name="horafinal" disabled="disabled">
                     <input type="hidden" id="id_servicio" name="id_servicio" disabled="disabled">
                     <textarea placeholder="Descripción del Servicio" id="descdelservicio" name="descdelservicio"></textarea>
                     <input type="submit" value="Finalizar Servicio" id="botonFinalizarServicio">

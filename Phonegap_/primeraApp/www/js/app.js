@@ -28,8 +28,9 @@ clearButton.addEventListener("click", function (event) {
 
 saveButton.addEventListener("click", function (event) {
     if (signaturePad.isEmpty()) {
-        alert("Please provide signature first.");
+        alert("Favor ingresar firma!");
     } else {
+         window.localStorage.removeItem(id_servicio);
         window.open(signaturePad.toDataURL());
     }
 });
