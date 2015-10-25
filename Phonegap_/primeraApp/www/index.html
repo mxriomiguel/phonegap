@@ -43,7 +43,12 @@
         var servicio_actual = window.localStorage.getItem("id_servicio");
                     if(servicio_actual){
                         alert("Servicio actual #" + servicio_actual);
-                        window.location="form_nuevo_servicio.html";
+                        if(window.localStorage.getItem("paso_app") == 2){
+                            window.location="form_nuevo_servicio.html";
+                        }
+                        if(window.localStorage.getItem("paso_app") == 3){
+                            window.location="firma_autorizador.html";
+                        }
                     } else{
                         window.localStorage.clear();
                     }

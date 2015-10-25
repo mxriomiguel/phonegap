@@ -31,9 +31,17 @@
         <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
         <script type="text/javascript">
+        var paso_app = 2;
+        window.localStorage.setItem("paso_app", paso_app);
         var sesion_nombre = window.localStorage.getItem("nombre_conductor");
         var sesion_placa = window.localStorage.getItem("placa_conductor");
         var id_conductor = window.localStorage.getItem("id_conductor");
+        var sesion_nombre_de_funcionario = window.localStorage.getItem("sesion_nombre_de_funcionario");
+        var sesion_nombre_de_pasajero = window.localStorage.getItem("sesion_nombre_de_pasajero");
+        var sesion_orden_de_servicio = window.localStorage.getItem("sesion_orden_de_servicio");
+        var sesion_empresa = window.localStorage.getItem("sesion_empresa");
+        var sesion_destino = window.localStorage.getItem("sesion_destino");
+        var sesion_descripcion_del_servicio = window.localStorage.getItem("sesion_descripcion_del_servicio");
         var myDate = new Date();
         var displayDate = (myDate.getFullYear()) + '-' + (myDate.getMonth()+1) + '-' + myDate.getDate();
         var displayDateHour = displayDate + ' ' + myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds(); 
@@ -42,73 +50,120 @@
         $(document).ready(function() { 
 
             $('.app h1').text('Bienvenido ' + sesion_nombre + '-' + sesion_placa);
-            $('#botonFinalizarServicio').click(function() {
 
-             
-            if($("#nombredepasajero").val() == ''){
-                alert('Nombre del Pasajero es un campo obligatorio');
-                return false;
+            var servicio_actual = window.localStorage.getItem("id_servicio");
+            if(servicio_actual){
+                $("#formulario_nuevo_servicio").css("display", "block");
+                $('#boton_nuevo_servicio').prop('onclick',null).off('click');
+                $("#horadeinicio").val(displayDateHour);
+                $("#fecha").val(displayDate);
+                $("#nombredeconductor").val(sesion_nombre);
+                $("#placa").val(sesion_placa);
+                $("#nombredepasajero").val(sesion_nombre_de_pasajero);
+                $("#nombredefuncionario").val(sesion_nombre_de_funcionario);
+                $("#empresa").val(sesion_empresa);
+                $("#ordendeservicio").val(sesion_orden_de_servicio);
+                $("#destino").val(sesion_destino);
+                $("#descdelservicio").val(sesion_descripcion_del_servicio);
             }
 
-            if($("#empresa").val() == '0'){
-                alert('Seleccionar nombre de empresa');
-                return false;
-            }
+            //CARGANDO VARIABLES DE SESION DEL FORM
 
-            var myDate_ = new Date();
-            var displayDate_ = (myDate_.getFullYear()) + '-' + (myDate_.getMonth()+1) + '-' + myDate_.getDate();
-            var HoraFinal = displayDate_ + ' ' + myDate_.getHours() + ':' + myDate_.getMinutes() + ':' + myDate_.getSeconds();
-            var id_servicio = respuestaServer.id_servicio;
-            alert(id_servicio);
-            var fecha_form = $("#fecha").val();
-            alert(fecha_form);
-            var ods_form = $("#ordendeservicio").val();
-            alert(ods_form);
-            var hora_inicio_form = $("#horadeinicio").val();
-            alert(hora_inicio_form);
-            var origen_form = $("#origen").val();
-            alert(origen_form);
-            var nombre_autorizador_form = $("#nombredefuncionario").val();
-            alert(nombre_autorizador_form);
-            var nombre_pasajero_form = $("#nombredepasajero").val();
-            alert(nombre_pasajero_form);
-            var desc_servicio_form = $("#descdelservicio").val();
-            alert(desc_servicio_form);
-            var id_empresa_form = $("empresa").val();
-            alert(id_empresa_form);
+            $( "#nombredepasajero" ).focusout(function() {
+                window.localStorage.setItem("sesion_nombre_de_pasajero", $("#nombredepasajero").val());
+            })
 
-            var archivoNuevoServicio = "http://tuconstru.com/sati/nuevo_servicio.php?jsoncallback=?";   
+            $( "#nombredefuncionario" ).focusout(function() {
+                window.localStorage.setItem("sesion_nombre_de_funcionario", $("#nombredefuncionario").val());
+            })
 
-            
+            $( "#ordendeservicio" ).focusout(function() {
+                window.localStorage.setItem("sesion_orden_de_servicio", $("#ordendeservicio").val());
+            })
+
+            $( "#empresa" ).focusout(function() {
+                window.localStorage.setItem("sesion_empresa", $("#empresa").val());
+            })
+
+            $( "#destino" ).focusout(function() {
+                window.localStorage.setItem("sesion_destino", $("#destino").val());
+            })
+
+            $( "#descdelservicio" ).focusout(function() {
+                window.localStorage.setItem("sesion_descripcion_del_servicio", $("#descdelservicio").val());
+            })
+
+            //FIN CARGANDO VARIABLES DE SESION DEL FORM
 
 
-            /*$.getJSON( archivoServicio, { id_servicio: id_servicio.value ,id_conductor: id_conductor})
-            .done(function(respuestaServer) {
-                
-                //alert("\nGenerado en: " + respuestaServer.hora)
-                if(respuestaServer.validacion == "ok"){
-
-                    alert('Ha iniciado el servicio  #' + respuestaServer.id_servicio);
-                    $("#id_servicio").val(respuestaServer.id_servicio);
-                    
-                  
-                }else{
-                  
-                  /// ejecutar una conducta cuando la validacion falla
-                    alert('Error al intentar iniciar nuevo servicio');
+            $('#botonFinalizarServicio').click(function() { 
+                if($("#nombredepasajero").val() == ''){
+                    alert('Nombre del Pasajero es un campo obligatorio');
+                    return false;
                 }
-          
-            });*/
+                if($("#empresa").val() == '0'){
+                    alert('Seleccionar nombre de empresa');
+                    return false;
+                }
 
-            if(nombre_autorizador_form == ""){
-                alert("Servicio registrado");
-                window.localStorage.removeItem(id_servicio);
-                window.location="form_nuevo_servicio.html";
-                return false;
-            }
-            
+                /*var myDate_ = new Date();
+                var displayDate_ = (myDate_.getFullYear()) + '-' + (myDate_.getMonth()+1) + '-' + myDate_.getDate();
+                var HoraFinal = displayDate_ + ' ' + myDate_.getHours() + ':' + myDate_.getMinutes() + ':' + myDate_.getSeconds();
+                var id_servicio = respuestaServer.id_servicio;
+                alert(id_servicio);
+                var fecha_form = $("#fecha").val();
+                alert(fecha_form);
+                */
+                var ods_form = $("#ordendeservicio").val();
+                alert(ods_form);
+                /*
+                var hora_inicio_form = $("#horadeinicio").val();
+                alert(hora_inicio_form);
+                var origen_form = $("#origen").val();
+                alert(origen_form);
+                */
+                var nombre_autorizador_form = $("#nombredefuncionario").val();
+                alert(nombre_autorizador_form);
+                /*
+                var nombre_pasajero_form = $("#nombredepasajero").val();
+                alert(nombre_pasajero_form);
+                var desc_servicio_form = $("#descdelservicio").val();
+                alert(desc_servicio_form);
+                var id_empresa_form = $("empresa").val();
+                alert(id_empresa_form);*/
 
-        });
+                var archivoNuevoServicio = "http://tuconstru.com/sati/nuevo_servicio.php?jsoncallback=?";   
+
+                
+
+
+                /*$.getJSON( archivoServicio, { id_servicio: id_servicio.value ,id_conductor: id_conductor})
+                .done(function(respuestaServer) {
+                    
+                    //alert("\nGenerado en: " + respuestaServer.hora)
+                    if(respuestaServer.validacion == "ok"){
+
+                        alert('Ha iniciado el servicio  #' + respuestaServer.id_servicio);
+                        $("#id_servicio").val(respuestaServer.id_servicio);
+                        
+                      
+                    }else{
+                      
+                      /// ejecutar una conducta cuando la validacion falla
+                        alert('Error al intentar iniciar nuevo servicio');
+                    }
+              
+                });*/
+
+                if(nombre_autorizador_form == ""){
+                    alert("Servicio registrado");
+                    //window.localStorage.removeItem(id_servicio);
+                    window.location="servicio_finalizado.html";
+                    return false;
+                }
+        
+            });
+
         });
 
         function nuevo_servicio(){
@@ -138,6 +193,7 @@
                 }
           
             });
+            $('#boton_nuevo_servicio').prop('onclick',null).off('click');
         }
         $(document).bind('mobileinit',function(){
             $.mobile.changePage.defaults.changeHash = false;
@@ -155,7 +211,7 @@
             <h1>VALE DIGITAL</h1>
             <h2>Nuevo Servicio</h2>
             <div>
-                <button onclick="nuevo_servicio();">Nuevo Servicio</button>
+                <button id="boton_nuevo_servicio" onclick="nuevo_servicio();">Nuevo Servicio</button>
             </div>
             <div id="formulario_nuevo_servicio" style="display:none;">
                 <form data-ajax="false" id="formulario" action="firma_autorizador.html" method="post" >
