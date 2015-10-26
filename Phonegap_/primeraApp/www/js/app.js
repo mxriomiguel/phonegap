@@ -30,7 +30,31 @@ saveButton.addEventListener("click", function (event) {
     if (signaturePad.isEmpty()) {
         alert("Favor ingresar firma!");
     } else {
-         window.localStorage.removeItem(id_servicio);
-        window.open(signaturePad.toDataURL());
+         //window.localStorage.removeItem("id_servicio");
+         var imagen_firma = signaturePad.toDataURL();
+
+
+         var archivoHoraFinal = "http://tuconstru.com/sati/grabar_firma.php?jsoncallback=?";   
+
+
+                $.getJSON( archivoHoraFinal, { imagen_firma: imagen_firma,
+                id_servicio: window.localStorage.getItem("id_servicio"),
+                })
+                .done(function(respuestaServer) {
+                    
+                    //alert("\nGenerado en: " + respuestaServer.hora)
+                    if(respuestaServer.validacion == "ok"){
+
+                        alert("Se ha finalizado el servicio");
+                        alert(respuestaServer.img);
+                        
+                      
+                    }else{
+                      
+                      /// ejecutar una conducta cuando la validacion falla
+                        alert('Error al finalizar servicio');
+                    }
+              
+        });
     }
 });

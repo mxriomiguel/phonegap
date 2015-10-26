@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Vale Digital - SATI </title>
+        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
+        <script src="js/flipclock.js"></script>
+        <link rel="stylesheet" href="css/flipclock.css" />
+        <script type="text/javascript">
+        var paso_app = 2;
+        window.localStorage.setItem("paso_app", paso_app);
+        var sesion_nombre = window.localStorage.getItem("nombre_conductor");
+        var sesion_placa = window.localStorage.getItem("placa_conductor");
+        var sesion_hora_de_inicio = window.localStorage.getItem("sesion_hora_de_inicio");
+        var id_conductor = window.localStorage.getItem("id_conductor");
+        var sesion_nombre_de_funcionario = window.localStorage.getItem("sesion_nombre_de_funcionario");
+        var sesion_nombre_de_pasajero = window.localStorage.getItem("sesion_nombre_de_pasajero");
+        var sesion_orden_de_servicio = window.localStorage.getItem("sesion_orden_de_servicio");
+        var sesion_empresa = window.localStorage.getItem("sesion_empresa");
+        var sesion_destino = window.localStorage.getItem("sesion_destino");
+        var sesion_descripcion_del_servicio = window.localStorage.getItem("sesion_descripcion_del_servicio");
+        var sesion_origen = window.localStorage.getItem("sesion_origen");
+        var myDate = new Date();
+        var displayDate = (myDate.getFullYear()) + '-' + (myDate.getMonth()+1) + '-' + myDate.getDate();
+        var displayDateHour = displayDate + ' ' + myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds(); 
+        </script>
+        <script>
+        $(document).ready(function() { 
+
+            $('#botonFinalizarServicio').click(function() { 
+                var myDate_ = new Date();
+                var displayDate_ = (myDate_.getFullYear()) + '-' + (myDate_.getMonth()+1) + '-' + myDate_.getDate();
+                var displayDateHour_ = displayDate_ + ' ' + myDate_.getHours() + ':' + myDate_.getMinutes() + ':' + myDate_.getSeconds();
+                
+
+                
+
+                navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
+                function onSuccess(position) {
+                var geolocacion = 'Latitud: '           + position.coords.latitude              + ' ' +
+                  'Longitud: '        + position.coords.longitude         + ' ' +
+                  'Altitud: '         + position.coords.altitude          + ' ' +
+                  'Precisión: '       + position.coords.accuracy          + ' ' +
+                  'Precisión altitud: ' + position.coords.altitudeAccuracy  + ' ' +
+                  'Dirección: '       + position.coords.heading           + ' ' +
+                  'Velocidad: '       + position.coords.speed             + ' ' +
+                  'Timestamp: '       + new Date(position.timestamp)      + ' ';
+                  $("#origen").val(geolocacion);
+                  window.localStorage.setItem("sesion_origen", $("#origen").val());
+                  var latlon = position.coords.latitude + "," + position.coords.longitude;
+                  var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&size=400x300&sensor=false";
+                }
+
+                    // La función 'callback' onError recibe un objeto `PositionError`.
+                    //
+                function onError(error) {
+                        alert('código: '    + error.code    + '\n' +
+                              'mensaje: ' + error.message + '\n');
+                }
+
+                var archivoHoraFinal = "http://tuconstru.com/sati/hora_final.php?jsoncallback=?";   
+
+
+                $.getJSON( archivoHoraFinal, { hora_final: displayDateHour_, destino: geolocacion,
+                id_servicio: window.localStorage.getItem("id_servicio"),
+                })
+                .done(function(respuestaServer) {
+                    
+                    //alert("\nGenerado en: " + respuestaServer.hora)
+                    if(respuestaServer.validacion == "ok"){
+
+                        alert("Se ha finalizado el servicio");
+                        
+                      
+                    }else{
+                      
+                      /// ejecutar una conducta cuando la validacion falla
+                        alert('Error al finalizar servicio');
+                    }
+              
+                });
+
+
+
+                return false;
+            });
+
+            $('.app h1').text('Bienvenido ' + sesion_nombre + '-' + sesion_placa);
+
+            var servicio_actual = window.localStorage.getItem("id_servicio");
+            if(servicio_actual){
+                $("#formulario_nuevo_servicio").css("display", "block");
+                //$('#boton_nuevo_servicio').prop('onclick',null).off('click');
+                //$("#horadeinicio").val(sesion_hora_de_inicio);
+                //$("#fecha").val(displayDate);
+                $("#nombredeconductor").val(sesion_nombre);
+                
+                $("#placa").val(sesion_placa);
+                $("#nombredepasajero").val(sesion_nombre_de_pasajero);
+                // $("#nombredefuncionario").val(sesion_nombre_de_funcionario);
+                $("#empresa").val(sesion_empresa);
+                //$("#ordendeservicio").val(sesion_orden_de_servicio);
+                //$("#destino").val(sesion_destino);
+                //$("#descdelservicio").val(sesion_descripcion_del_servicio);
+                //$("#origen").val(sesion_origen);
+            }
+
+
+        });
+
+
+        $(document).bind('mobileinit',function(){
+            $.mobile.changePage.defaults.changeHash = false;
+            $.mobile.hashListeningEnabled = false;
+            $.mobile.pushStateEnabled = false;
+        });
+        </script> 
+        <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script> 
+    </head>
+    <body style="background-image: -webkit-gradient(linear,left top,left bottom,from(#737CA9),to(#eee));">
+        <div style="text-align: center; padding-top:100px;">
+            <img src="img/logo_sati.png" />
+        </div>
+        <div class="app" style="padding: 10px 0px 75px 0px; width: 80%; margin-left: 10%;">
+            <h1>VALE DIGITAL</h1>
+            <h2>SERVICIO FINALIZADO</h2>
+            <div id="formulario_nuevo_servicio" style="display:none;">
+                <form data-ajax="false" id="formulario" action="firma_autorizador.html" method="post" >
+                    <input type="text" placeholder="Nombre del Conductor" id="nombredeconductor" name="nombredeconductor" disabled="disabled">
+                    <input type="text" placeholder="Placa" id="placa" name="placa" disabled="disabled">
+                    <input type="text" placeholder="Nombre del Pasajero*" id="nombredepasajero" name="nombredepasajero" maxlenght="40" disabled="disabled">
+                    <select id="empresa" name="empresa" disabled="disabled">
+                      <option value="0">EMPRESA*</option>
+                      <option value="1">VIAJES FALABELLA SAS</option>
+                      <option value="2">YOKOMOTOR SA</option>
+                      <option value="3">CIRCULO DE SUBOFICIALES DE LAS FUERZAS MILITARES</option>
+                      <option value="4">CORPOICA</option>
+                      <option value="5">TRAVEL CLUB LTDA, BCD TRAVEL O BTI COLOMBIA</option>
+                      <option value="6">CINASCAR DE COLOMBIA S.A.</option>
+                      <option value="7">GRUPO COLWAGEN S.A</option>
+                      <option value="8">GRUPO PREMIER MOTORES BRITANICOS SAS</option>
+                      <option value="9">EXCURSIONES AMISTAD SAS - ADESCUBRIR TRAVEL Y ADVENTURE</option>
+                      <option value="10">MERCER COLOMBIA LTDA</option>
+                      <option value="11">SATI SAS</option>
+                      <option value="12">PARTICULAR</option>
+                    </select>
+                    <div class="clock" style="margin:2em;"></div>
+                    <div class="message"></div>
+                    <script type="text/javascript">
+                        var clock;
+                        
+                        $(document).ready(function() {
+
+                            var myDate = new Date();
+                            var displayDate = (myDate.getFullYear()) + '-' + (myDate.getMonth()+1) + '-' + myDate.getDate();
+                            var displayDateHour = displayDate + ' ' + myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds();
+                            alert(displayDateHour);
+                            
+                            var hora_inicio = new Date(sesion_hora_de_inicio);
+                            alert(hora_inicio);
+    
+                            var timeDiff = Math.abs(myDate.getTime() - hora_inicio.getTime());
+                            var diffSegundos = Math.ceil((timeDiff/1000));
+
+                            
+                            
+                            clock = $('.clock').FlipClock({
+                                clockFace: 'HourlyCounter',
+                                language:'es-es'
+                            });
+                            clock.setTime(diffSegundos);
+                        });
+
+                    </script>
+                    <input type="hidden" id="id_servicio" name="id_servicio" disabled="disabled">
+                    <input type="submit" value="Finalizar Servicio" id="botonFinalizarServicio">
+                </form>
+                <span style="color: white;">* Campos Obligatorios</span>
+            </div>
+        </div>
+
+        <!-- <script type="text/javascript" src="cordova.js"></script> -->
+        <script type="text/javascript" src="js/index.js"></script>
+        <!-- <script type="text/javascript" src="js/app.js"></script> -->
+
+    </body>
+</html>

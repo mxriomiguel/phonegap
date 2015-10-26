@@ -35,6 +35,7 @@
         window.localStorage.setItem("paso_app", paso_app);
         var sesion_nombre = window.localStorage.getItem("nombre_conductor");
         var sesion_placa = window.localStorage.getItem("placa_conductor");
+        var sesion_hora_de_inicio = window.localStorage.getItem("sesion_hora_de_inicio");
         var id_conductor = window.localStorage.getItem("id_conductor");
         var sesion_nombre_de_funcionario = window.localStorage.getItem("sesion_nombre_de_funcionario");
         var sesion_nombre_de_pasajero = window.localStorage.getItem("sesion_nombre_de_pasajero");
@@ -42,6 +43,7 @@
         var sesion_empresa = window.localStorage.getItem("sesion_empresa");
         var sesion_destino = window.localStorage.getItem("sesion_destino");
         var sesion_descripcion_del_servicio = window.localStorage.getItem("sesion_descripcion_del_servicio");
+        var sesion_origen = window.localStorage.getItem("sesion_origen");
         var myDate = new Date();
         var displayDate = (myDate.getFullYear()) + '-' + (myDate.getMonth()+1) + '-' + myDate.getDate();
         var displayDateHour = displayDate + ' ' + myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds(); 
@@ -55,7 +57,7 @@
             if(servicio_actual){
                 $("#formulario_nuevo_servicio").css("display", "block");
                 $('#boton_nuevo_servicio').prop('onclick',null).off('click');
-                $("#horadeinicio").val(displayDateHour);
+                $("#horadeinicio").val(sesion_hora_de_inicio);
                 $("#fecha").val(displayDate);
                 $("#nombredeconductor").val(sesion_nombre);
                 $("#placa").val(sesion_placa);
@@ -65,6 +67,7 @@
                 $("#ordendeservicio").val(sesion_orden_de_servicio);
                 $("#destino").val(sesion_destino);
                 $("#descdelservicio").val(sesion_descripcion_del_servicio);
+                $("#origen").val(sesion_origen);
             }
 
             //CARGANDO VARIABLES DE SESION DEL FORM
@@ -111,53 +114,62 @@
                 var HoraFinal = displayDate_ + ' ' + myDate_.getHours() + ':' + myDate_.getMinutes() + ':' + myDate_.getSeconds();
                 var id_servicio = respuestaServer.id_servicio;
                 alert(id_servicio);
+                */
                 var fecha_form = $("#fecha").val();
                 alert(fecha_form);
-                */
                 var ods_form = $("#ordendeservicio").val();
                 alert(ods_form);
-                /*
                 var hora_inicio_form = $("#horadeinicio").val();
                 alert(hora_inicio_form);
                 var origen_form = $("#origen").val();
                 alert(origen_form);
-                */
                 var nombre_autorizador_form = $("#nombredefuncionario").val();
                 alert(nombre_autorizador_form);
-                /*
                 var nombre_pasajero_form = $("#nombredepasajero").val();
                 alert(nombre_pasajero_form);
                 var desc_servicio_form = $("#descdelservicio").val();
                 alert(desc_servicio_form);
-                var id_empresa_form = $("empresa").val();
-                alert(id_empresa_form);*/
+                var id_empresa_form = $("#empresa").val();
+                alert(id_empresa_form);
+                
 
                 var archivoNuevoServicio = "http://tuconstru.com/sati/nuevo_servicio.php?jsoncallback=?";   
 
                 
 
 
-                /*$.getJSON( archivoServicio, { id_servicio: id_servicio.value ,id_conductor: id_conductor})
+                $.getJSON( archivoNuevoServicio, { fecha: fecha_form,
+                id_servicio: window.localStorage.getItem("id_servicio"),
+                ods : ods_form,
+                origen : origen_form,
+                nombre_autorizador: nombre_autorizador_form,
+                nombre_pasajero: nombre_pasajero_form,
+                desc_servicio: desc_servicio_form,
+                id_conductor: window.localStorage.getItem("id_conductor"),
+                id_empresa: id_empresa_form
+                })
                 .done(function(respuestaServer) {
                     
                     //alert("\nGenerado en: " + respuestaServer.hora)
                     if(respuestaServer.validacion == "ok"){
 
-                        alert('Ha iniciado el servicio  #' + respuestaServer.id_servicio);
-                        $("#id_servicio").val(respuestaServer.id_servicio);
+                        alert(respuestaServer.fecha);
+                        alert(respuestaServer.id_servicio);
+                        alert("Se ha modificado el servicio");
                         
                       
                     }else{
                       
                       /// ejecutar una conducta cuando la validacion falla
-                        alert('Error al intentar iniciar nuevo servicio');
+                        alert('Error al insertar');
                     }
               
-                });*/
+                });
 
+                return false;
                 if(nombre_autorizador_form == ""){
                     alert("Servicio registrado");
-                    //window.localStorage.removeItem(id_servicio);
+                    //window.localStorage.removeItem("id_servicio");
                     window.location="servicio_finalizado.html";
                     return false;
                 }
@@ -169,6 +181,7 @@
         function nuevo_servicio(){
             $("#formulario_nuevo_servicio").css("display", "block");
             $("#horadeinicio").val(displayDateHour);
+            window.localStorage.setItem("sesion_hora_de_inicio", $("#horadeinicio").val());
             $("#fecha").val(displayDate);
             $("#nombredeconductor").val(sesion_nombre);
             $("#placa").val(sesion_placa);
@@ -243,7 +256,7 @@
                     <input type="hidden" placeholder="Hora Final" id="horafinal" name="horafinal" disabled="disabled">
                     <input type="hidden" id="id_servicio" name="id_servicio" disabled="disabled">
                     <textarea placeholder="Descripción del Servicio" id="descdelservicio" name="descdelservicio"></textarea>
-                    <input type="submit" value="Finalizar Servicio" id="botonFinalizarServicio">
+                    <input type="submit" value="Iniciar Servicio" id="botonFinalizarServicio">
                 </form>
                 <span style="color: white;">* Campos Obligatorios</span>
             </div>
@@ -273,6 +286,7 @@
                   'Velocidad: '       + position.coords.speed             + ' ' +
                   'Timestamp: '       + new Date(position.timestamp)      + ' ';
                   $("#origen").val(geolocacion);
+                  window.localStorage.setItem("sesion_origen", $("#origen").val());
                   var latlon = position.coords.latitude + "," + position.coords.longitude;
                   var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&size=400x300&sensor=false";
                   $("#img_origen").attr("src",img_url);
