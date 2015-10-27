@@ -116,21 +116,21 @@
                 alert(id_servicio);
                 */
                 var fecha_form = $("#fecha").val();
-                alert(fecha_form);
+                //alert(fecha_form);
                 var ods_form = $("#ordendeservicio").val();
-                alert(ods_form);
+                //alert(ods_form);
                 var hora_inicio_form = $("#horadeinicio").val();
-                alert(hora_inicio_form);
+                //alert(hora_inicio_form);
                 var origen_form = $("#origen").val();
-                alert(origen_form);
+                //alert(origen_form);
                 var nombre_autorizador_form = $("#nombredefuncionario").val();
-                alert(nombre_autorizador_form);
+                //alert(nombre_autorizador_form);
                 var nombre_pasajero_form = $("#nombredepasajero").val();
-                alert(nombre_pasajero_form);
+                //alert(nombre_pasajero_form);
                 var desc_servicio_form = $("#descdelservicio").val();
-                alert(desc_servicio_form);
+                //alert(desc_servicio_form);
                 var id_empresa_form = $("#empresa").val();
-                alert(id_empresa_form);
+                //alert(id_empresa_form);
                 
 
                 var archivoNuevoServicio = "http://tuconstru.com/sati/nuevo_servicio.php?jsoncallback=?";   
@@ -153,8 +153,8 @@
                     //alert("\nGenerado en: " + respuestaServer.hora)
                     if(respuestaServer.validacion == "ok"){
 
-                        alert(respuestaServer.fecha);
-                        alert(respuestaServer.id_servicio);
+                        //alert(respuestaServer.fecha);
+                        //alert(respuestaServer.id_servicio);
                         alert("Se ha modificado el servicio");
                         
                       
@@ -166,7 +166,7 @@
               
                 });
 
-                return false;
+                
                 if(nombre_autorizador_form == ""){
                     alert("Servicio registrado");
                     //window.localStorage.removeItem("id_servicio");

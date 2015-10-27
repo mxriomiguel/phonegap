@@ -32,9 +32,10 @@ saveButton.addEventListener("click", function (event) {
     } else {
          //window.localStorage.removeItem("id_servicio");
          var imagen_firma = signaturePad.toDataURL();
+         window.location="servicio_finalizado.html";
 
 
-         var archivoHoraFinal = "http://tuconstru.com/sati/grabar_firma.php?jsoncallback=?";   
+         /*var archivoHoraFinal = "http://tuconstru.com/sati/grabar_firma.php?jsoncallback=?";   
 
 
                 $.getJSON( archivoHoraFinal, { imagen_firma: imagen_firma,
@@ -55,6 +56,6 @@ saveButton.addEventListener("click", function (event) {
                         alert('Error al finalizar servicio');
                     }
               
-        });
+        });*/
     }
 });

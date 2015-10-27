@@ -33,7 +33,7 @@
         <script src="js/flipclock.js"></script>
         <link rel="stylesheet" href="css/flipclock.css" />
         <script type="text/javascript">
-        var paso_app = 2;
+        var paso_app = 4;
         window.localStorage.setItem("paso_app", paso_app);
         var sesion_nombre = window.localStorage.getItem("nombre_conductor");
         var sesion_placa = window.localStorage.getItem("placa_conductor");
@@ -97,6 +97,7 @@
                     if(respuestaServer.validacion == "ok"){
 
                         alert("Se ha finalizado el servicio");
+                        window.location="calificacion_servicio.html";
                         
                       
                     }else{
