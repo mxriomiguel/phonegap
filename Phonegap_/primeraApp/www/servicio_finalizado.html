@@ -60,11 +60,11 @@
                 
 
                 
-
+                var geolocacion = "No definido";
                 navigator.geolocation.getCurrentPosition(onSuccess, onError);
 
                 function onSuccess(position) {
-                var geolocacion = 'Latitud: '           + position.coords.latitude              + ' ' +
+                geolocacion = 'Latitud: '           + position.coords.latitude              + ' ' +
                   'Longitud: '        + position.coords.longitude         + ' ' +
                   'Altitud: '         + position.coords.altitude          + ' ' +
                   'Precisión: '       + position.coords.accuracy          + ' ' +
