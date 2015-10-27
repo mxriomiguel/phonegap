@@ -202,7 +202,16 @@ $(function() {
                     if(respuestaServer.validacion == "ok"){
 
                         alert("Se ha calificado el servicio");
-                        
+                        window.localStorage.removeItem("id_servicio");
+                        window.localStorage.removeItem("sesion_nombre_de_pasajero");
+                        window.localStorage.removeItem("sesion_nombre_de_funcionario");
+                        window.localStorage.removeItem("sesion_orden_de_servicio");
+                        window.localStorage.removeItem("sesion_empresa");
+                        window.localStorage.removeItem("sesion_destino");
+                        window.localStorage.removeItem("sesion_descripcion_del_servicio");
+                        window.localStorage.removeItem("sesion_hora_de_inicio");
+                        window.localStorage.removeItem("sesion_origen");
+                        window.location = "form_nuevo_servicio.html";     
                       
                     }else{
                       

@@ -61,29 +61,7 @@
 
                 
                 var geolocacion = "No definido";
-                navigator.geolocation.getCurrentPosition(onSuccess, onError);
-
-                function onSuccess(position) {
-                geolocacion = 'Latitud: '           + position.coords.latitude              + ' ' +
-                  'Longitud: '        + position.coords.longitude         + ' ' +
-                  'Altitud: '         + position.coords.altitude          + ' ' +
-                  'Precisión: '       + position.coords.accuracy          + ' ' +
-                  'Precisión altitud: ' + position.coords.altitudeAccuracy  + ' ' +
-                  'Dirección: '       + position.coords.heading           + ' ' +
-                  'Velocidad: '       + position.coords.speed             + ' ' +
-                  'Timestamp: '       + new Date(position.timestamp)      + ' ';
-                  $("#origen").val(geolocacion);
-                  window.localStorage.setItem("sesion_origen", $("#origen").val());
-                  var latlon = position.coords.latitude + "," + position.coords.longitude;
-                  var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&size=400x300&sensor=false";
-                }
-
-                    // La función 'callback' onError recibe un objeto `PositionError`.
-                    //
-                function onError(error) {
-                        alert('código: '    + error.code    + '\n' +
-                              'mensaje: ' + error.message + '\n');
-                }
+                
 
                 var archivoHoraFinal = "http://tuconstru.com/sati/hora_final.php?jsoncallback=?";   
 
@@ -97,7 +75,7 @@
                     if(respuestaServer.validacion == "ok"){
 
                         alert("Se ha finalizado el servicio");
-                        window.location="calificacion_servicio.html";
+                        window.location="firma_pasajero.html";
                         
                       
                     }else{

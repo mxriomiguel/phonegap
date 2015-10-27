@@ -131,12 +131,13 @@
                 //alert(desc_servicio_form);
                 var id_empresa_form = $("#empresa").val();
                 //alert(id_empresa_form);
+                var destino_form = $("#destino").val();
                 
 
                 var archivoNuevoServicio = "http://tuconstru.com/sati/nuevo_servicio.php?jsoncallback=?";   
 
                 
-
+                
 
                 $.getJSON( archivoNuevoServicio, { fecha: fecha_form,
                 id_servicio: window.localStorage.getItem("id_servicio"),
@@ -146,7 +147,8 @@
                 nombre_pasajero: nombre_pasajero_form,
                 desc_servicio: desc_servicio_form,
                 id_conductor: window.localStorage.getItem("id_conductor"),
-                id_empresa: id_empresa_form
+                id_empresa: id_empresa_form,
+                destino : destino_form
                 })
                 .done(function(respuestaServer) {
                     
@@ -155,24 +157,30 @@
 
                         //alert(respuestaServer.fecha);
                         //alert(respuestaServer.id_servicio);
-                        alert("Se ha modificado el servicio");
+                        alert("Se ha iniciado el servicio");
+                        
+                        if(nombre_autorizador_form == ""){
+                            //window.localStorage.removeItem("id_servicio");
+                            window.location="servicio_finalizado.html";
+                            return false;
+                        }
+                        else{
+                            window.location="firma_autorizador.html";
+                            return false;
+                        }
                         
                       
                     }else{
                       
                       /// ejecutar una conducta cuando la validacion falla
                         alert('Error al insertar');
+                        
                     }
               
                 });
 
+                return false;
                 
-                if(nombre_autorizador_form == ""){
-                    alert("Servicio registrado");
-                    //window.localStorage.removeItem("id_servicio");
-                    window.location="servicio_finalizado.html";
-                    return false;
-                }
         
             });
 

@@ -31,32 +31,27 @@ saveButton.addEventListener("click", function (event) {
         alert("Favor ingresar firma!");
     } else {
          //window.localStorage.removeItem("id_servicio");
-         var imagen_firma = signaturePad.toDataURL();
+         var imagen_firma = signaturePad.toDataURL("image/png");
          alert(tipo_firma);
-         window.location="servicio_finalizado.html";
 
 
-         /*var archivoHoraFinal = "http://tuconstru.com/sati/grabar_firma.php?jsoncallback=?";   
+         var archivoHoraFinal = "http://tuconstru.com/sati/grabar_firma.php";   
 
 
-                $.getJSON( archivoHoraFinal, { imagen_firma: imagen_firma,
-                id_servicio: window.localStorage.getItem("id_servicio"),
+                $.post( archivoHoraFinal, { imagen_firma: imagen_firma, tipo_firma: tipo_firma,
+                id_servicio: window.localStorage.getItem("id_servicio")
                 })
                 .done(function(respuestaServer) {
-                    
-                    //alert("\nGenerado en: " + respuestaServer.hora)
-                    if(respuestaServer.validacion == "ok"){
-
-                        alert("Se ha finalizado el servicio");
-                        alert(respuestaServer.img);
-                        
-                      
-                    }else{
-                      
-                      /// ejecutar una conducta cuando la validacion falla
-                        alert('Error al finalizar servicio');
+                    if(respuestaServer == 1){
+                        alert("Firma de autorizador ingresada");
+                        window.location="servicio_finalizado.html";
                     }
-              
-        });*/
+                    if(respuestaServer == 2){
+                        alert("Firma de pasajero ingresada");
+                        window.location="calificacion_servicio.html";
+                    }
+                              
+        });
+    return false;
     }
 });
