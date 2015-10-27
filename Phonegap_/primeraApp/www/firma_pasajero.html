@@ -12,10 +12,10 @@
 
   <link rel="stylesheet" href="css/signature-pad.css">
   <script type="text/javascript">
-  var paso_app = 3;
+  var paso_app = 5;
   window.localStorage.setItem("paso_app", paso_app);
-  alert('Ingresar Firma de autorizador.');
-  var tipo_firma = 1;
+  alert('Ingresar Firma de Pasajero.');
+  var tipo_firma = 2;
   </script>
 </head>
 <body onselectstart="return false">
@@ -25,7 +25,7 @@
       <canvas></canvas>
     </div>
     <div class="m-signature-pad--footer">
-      <div class="description">Firma Autorizador</div>
+      <div class="description">Firma Pasajero</div>
       <button class="button clear" data-action="clear">Limpiar</button>
       <button class="button save" data-action="save">Grabar</button>
     </div>

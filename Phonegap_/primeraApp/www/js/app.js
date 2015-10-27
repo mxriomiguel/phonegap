@@ -32,6 +32,7 @@ saveButton.addEventListener("click", function (event) {
     } else {
          //window.localStorage.removeItem("id_servicio");
          var imagen_firma = signaturePad.toDataURL();
+         alert(tipo_firma);
          window.location="servicio_finalizado.html";
 
 
