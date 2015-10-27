@@ -32,7 +32,6 @@ saveButton.addEventListener("click", function (event) {
     } else {
          //window.localStorage.removeItem("id_servicio");
          var imagen_firma = signaturePad.toDataURL("image/png");
-         alert(tipo_firma);
 
 
          var archivoHoraFinal = "http://tuconstru.com/sati/grabar_firma.php";   

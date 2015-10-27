@@ -185,9 +185,9 @@
   width: 20px;
   height: 100px; }
 
-.flip-clock-divider.hours{
+/*.flip-clock-divider.hours{
   margin-left: 25%;
-}
+}*/
 
 .flip-clock-divider:first-child {
   width: 0; }

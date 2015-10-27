@@ -160,10 +160,10 @@
                             var myDate = new Date();
                             var displayDate = (myDate.getFullYear()) + '-' + (myDate.getMonth()+1) + '-' + myDate.getDate();
                             var displayDateHour = displayDate + ' ' + myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds();
-                            alert(displayDateHour);
+                            //alert(displayDateHour);
                             
                             var hora_inicio = new Date(sesion_hora_de_inicio);
-                            alert(hora_inicio);
+                            //alert(hora_inicio);
     
                             var timeDiff = Math.abs(myDate.getTime() - hora_inicio.getTime());
                             var diffSegundos = Math.ceil((timeDiff/1000));

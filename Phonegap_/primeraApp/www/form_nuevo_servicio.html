@@ -136,10 +136,12 @@
 
                 var archivoNuevoServicio = "http://tuconstru.com/sati/nuevo_servicio.php?jsoncallback=?";   
 
-                
+                var myDate_ = new Date();
+                var displayDate_ = (myDate_.getFullYear()) + '-' + (myDate_.getMonth()+1) + '-' + myDate_.getDate();
+                var displayDateHour_ = displayDate_ + ' ' + myDate_.getHours() + ':' + myDate_.getMinutes() + ':' + myDate_.getSeconds();
                 
 
-                $.getJSON( archivoNuevoServicio, { fecha: fecha_form,
+                $.getJSON( archivoNuevoServicio, { fecha: displayDateHour_,
                 id_servicio: window.localStorage.getItem("id_servicio"),
                 ods : ods_form,
                 origen : origen_form,
